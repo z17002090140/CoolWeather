@@ -29,7 +29,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call,Response response) throws IOException{
                 final String responseText = response.body().string();
-                textView.setText(responseText);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setText(responseText);
+                    }
+                });
             }
         });
     }
