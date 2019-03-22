@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.textView=(TextView)findViewById(R.id.abc);
-        String weatherId="CN101020300";
-        String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=19a70794d47b4a9b81a7bf57a21922ee";
+        String weatherId="CN101190401";
+        String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=2a4ad245ad794c8b9279c9192737bc56";
         HttpUtil.sendOkHttpRequest(weatherUrl,new Callback(){
             @Override
             public void onFailure(Call call, IOException e) {
