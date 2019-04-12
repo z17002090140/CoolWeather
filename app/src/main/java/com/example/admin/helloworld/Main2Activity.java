@@ -48,6 +48,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException{
                 final String responseText = response.body().string();
                 String[] result=parseJSONWithJSONObject(responseText);
+                Main2Activity.this.data=result;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -69,7 +70,7 @@ public class Main2Activity extends AppCompatActivity {
             String[] result=new String[jsonArray.length()];
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
-                result[i]=jsonObject.getString("name");
+                this.data[i]=jsonObject.getString("name");
             }
             return result;
         } catch (JSONException e) {
