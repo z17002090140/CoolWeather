@@ -33,7 +33,7 @@ public class CityActivity extends AppCompatActivity {
         final int pid = intent.getIntExtra("pid",0);
         this.textView=(TextView)findViewById(R.id.abc);
         this.listView=(ListView)findViewById(R.id.listview);
-        ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,data);
+        final ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,data);
         listView.setAdapter(adapter);
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -58,6 +58,7 @@ public class CityActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         textView.setText(responseText);
+                        adapter.notifyDataSetChanged();
                     }
                 });
             }
