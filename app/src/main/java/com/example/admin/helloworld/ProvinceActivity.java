@@ -22,17 +22,15 @@ import okhttp3.Response;
 
 public class ProvinceActivity extends AppCompatActivity {
 
-//    private List<String>data2=new ArrayList();
     private  int[] pids=new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     private  String[] data={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
     private TextView textView;
-//    private Button button;
     private ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.province_activity);
         this.textView = (TextView)findViewById(R.id.textView);
         this.listview=(ListView)findViewById(R.id.listview);
         ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,data);
@@ -47,20 +45,12 @@ public class ProvinceActivity extends AppCompatActivity {
             }
         });
 
-//        this.button=(Button)findViewById(R.id.button);
-//        this.button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(ProvinceActivity.this,CountyActivity.class));
-//            }
-//        });
         String weatherUrl = "http://guolin.tech/api/china";
         HttpUtil.sendOkHttpRequest(weatherUrl,new Callback(){
             @Override
             public void onResponse(Call call, Response response) throws IOException{
                 final String responseText = response.body().string();
                parseJSONWithJSONObject(responseText);
-//                ProvinceActivity.this.data=result;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
