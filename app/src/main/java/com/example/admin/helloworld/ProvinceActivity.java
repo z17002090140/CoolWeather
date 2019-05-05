@@ -15,18 +15,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
 public class ProvinceActivity extends AppCompatActivity {
-
-    private  int[] pids=new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    private  String[] data={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+    private String currentlevel="province";
+    private List<Integer> cids = new ArrayList<>();
+    private List<Integer> pids = new ArrayList<>();
+    private List<String> data = new ArrayList<>();
     private TextView textView;
     private ListView listview;
-
+    private int pid = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +41,21 @@ public class ProvinceActivity extends AppCompatActivity {
         this.listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("点击了哪一个",ProvinceActivity.this.pids[position]+":"+ProvinceActivity.this.data[position]);
-                Intent intent = new Intent(ProvinceActivity.this,CityActivity.class);
-                intent.putExtra("pid",ProvinceActivity.this.pids[position]);
-                startActivity(intent);
+                Log.v("点击了哪一个",ProvinceActivity.this.pids.get(position)+":"+ProvinceActivity.this.data.get(position));
+                pid = ProvinceActivity.this.pids.get(position);
+                currentlevel="city";
+                getData(adapter);
+//                Intent intent = new Intent(ProvinceActivity.this,CityActivity.class);
+//                intent.putExtra("pid",ProvinceActivity.this.pids.get(position));
+//                if(currentlevel=="city"){intent.putExtra("cid",cids.get(position));}
+//                startActivity(intent);
             }
         });
 
-        String weatherUrl = "http://guolin.tech/api/china";
+    }
+
+    private void getData(final ArrayAdapter<String> adapter) {
+        String weatherUrl = currentlevel=="city"?"http://guolin.tech/api/china"+pid:"http://guolin.tech/api/china";
         HttpUtil.sendOkHttpRequest(weatherUrl,new Callback(){
             @Override
             public void onResponse(Call call, Response response) throws IOException{
@@ -68,14 +78,20 @@ public class ProvinceActivity extends AppCompatActivity {
 
     private void parseJSONWithJSONObject(String responseText) {
         JSONArray jsonArray= null;
+        this.data.clear();
         try {
             jsonArray = new JSONArray(responseText);
             String[] result=new String[jsonArray.length()];
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject = null;
                 jsonObject = jsonArray.getJSONObject(i);
-                this.data[i]=jsonObject.getString("name");
-                this.pids[i]=jsonObject.getInt("id");
+                this.data.add(jsonObject.getString("name"));
+                if(currentlevel=="city"){
+                    this.cids.add(jsonObject.getInt("id"));
+                }else{
+                    this.pids.add(jsonObject.getInt("id"));
+                }
+
             }
 //            return result;
         } catch (JSONException e) {

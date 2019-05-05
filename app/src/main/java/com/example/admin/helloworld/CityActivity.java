@@ -14,6 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -21,8 +24,8 @@ import okhttp3.Response;
 public class CityActivity extends AppCompatActivity {
 
     private TextView textView;
-    private  int[] cids=new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    private  String[] data={"","","","","","","","","","","","","","","",""};
+    private List<Integer> cids = new ArrayList<>();
+    private List<String> data = new ArrayList<>();
     private ListView listView;
 
     @Override
@@ -39,7 +42,7 @@ public class CityActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CityActivity.this,CountyActivity.class);
-                intent.putExtra("cid",CityActivity.this.cids[position]);
+                intent.putExtra("cid",CityActivity.this.cids.get(position));
                 intent.putExtra("pid",pid);
                 startActivity(intent);
             }
@@ -71,8 +74,8 @@ public class CityActivity extends AppCompatActivity {
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject = null;
                 jsonObject = jsonArray.getJSONObject(i);
-                this.data[i]=jsonObject.getString("name");
-                this.cids[i]=jsonObject.getInt("id");
+                this.data.add(jsonObject.getString("name"));
+                this.cids.add(jsonObject.getInt("id"));
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -22,8 +24,8 @@ import okhttp3.Response;
 public class CountyActivity extends AppCompatActivity {
     private TextView textView;
     private ListView listview;
-    private  String[] Weatherid={"","","","","","","","","","","","","","","",""};
-    private  String[] data={"","","","","","","","","","","","","","","",""};
+    private  List<String> Weatherid=new ArrayList<>();
+    private List<String> data = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class CountyActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CountyActivity.this,WeatherActivity.class);
-                intent.putExtra("Weatherid",CountyActivity.this.Weatherid[position]);
+                intent.putExtra("Weatherid",CountyActivity.this.Weatherid.get(position));
                 intent.putExtra("pid",pid);
                 intent.putExtra("cid",cid);
                 startActivity(intent);
@@ -72,8 +74,8 @@ public class CountyActivity extends AppCompatActivity {
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject = null;
                 jsonObject = jsonArray.getJSONObject(i);
-                this.data[i]=jsonObject.getString("name");
-                this.Weatherid[i]=jsonObject.getString("weather_id");
+                this.data.add(jsonObject.getString("name"));
+                this.Weatherid.add(jsonObject.getString("weather_id"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
